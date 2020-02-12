@@ -1,0 +1,2 @@
+class Petri::Transition
+end
