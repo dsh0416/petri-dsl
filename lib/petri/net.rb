@@ -25,13 +25,16 @@ class Petri::Net
     @end = place.label
   end
 
-  def transition(name, options={})
+  def transition(label, options={}, &block)
+    raise TypeError unless label.is_a? Symbol
+    raise ArgumentError if @transitions.include? label
+    @transitions << Petri::Transition.new(label, options, &block)
   end
 
   def compile
     {
       places: @places.map { |place| place.compile },
-      transitions: [],
+      transitions: @transitions.map { |transition| transition.compile },
       start_place: @start,
       end_place: @end,
     }
