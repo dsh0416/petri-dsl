@@ -1,7 +1,10 @@
 class Petri::Transition
   attr_reader :label, :name, :consumption, :production
 
-  def initialize(label, options={}, &block)
+  def initialize(net, label, options={}, &block)
+    raise TypeError unless net.is_a? ::Petri::Net
+    @net = net
+
     raise TypeError unless label.is_a? Symbol
     @label = label
 
@@ -18,6 +21,7 @@ class Petri::Transition
   end
 
   def consume(label, options={})
+    @net.add_place(label, options)
     @consumption << label if label.is_a? Symbol
     if label.is_a? Array
       for place in label
@@ -28,8 +32,9 @@ class Petri::Transition
   end
 
   def produce(label, options={})
+    @net.add_place(label, options)
     raise TypeError unless (options[:with_guard].is_a? Symbol or options[:with_guard].nil?)
-    guard = options[:guard]
+    guard = options[:with_guard]
 
     @production << {label: label, guard: guard} if label.is_a? Symbol
     if label.is_a? Array

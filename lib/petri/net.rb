@@ -28,7 +28,7 @@ class Petri::Net
   def transition(label, options={}, &block)
     raise TypeError unless label.is_a? Symbol
     raise ArgumentError if @transitions.include? label
-    @transitions << Petri::Transition.new(label, options, &block)
+    @transitions << Petri::Transition.new(self, label, options, &block)
   end
 
   def compile

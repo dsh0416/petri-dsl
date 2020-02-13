@@ -15,7 +15,7 @@ class Petri::IntegrationSimpleTest < Minitest::Test
 
   def test_compiled
     assert_equal(@compiled, {
-      places: [{label: :start, name: "Start"}, {label: :end, name: "End"}],
+      places: [{label: :start, name: "Start"}, {label: :end, name: "End"}, {label: :p1, name: "p1"}],
       transitions: [
         {label: :t1, name: "t1", consume: [:start], produce: [{label: :p1, guard: nil}]},
         {label: :t2, name: "t2", consume: [:p1], produce: [{label: :end, guard: nil}]}
