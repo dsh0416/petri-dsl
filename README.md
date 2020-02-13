@@ -26,20 +26,20 @@ network = Petri::Net.new do |net|
     net.end_place :end, name: 'End'
 
     net.transition :leader_evaluate, name: 'Leader Evaluate', consume: :start do |t|
-    t.produce :leader_approved, name: 'Leader Approved', with_guard: :approved
-    t.produce :rejected, name: 'Rejected', with_guard: :rejected
+        t.produce :leader_approved, name: 'Leader Approved', with_guard: :approved
+        t.produce :rejected, name: 'Rejected', with_guard: :rejected
     end
 
     net.transition :hr_evaluate, name: 'HR Evaluate', consume: :leader_approved do |t|
-    t.produce :hr_approved, name: 'HR Approved', with_guard: :approved
-    t.produce :rejected, with_guard: :rejected
+        t.produce :hr_approved, name: 'HR Approved', with_guard: :approved
+        t.produce :rejected, with_guard: :rejected
     end
 
     net.transition :report_back, name: 'Report Back', consume: :hr_approved, produce: :end
 
     net.transition :resend_request, name: 'Resend Request', consume: :rejected do |t|
-    t.produce :start, with_guard: :resend
-    t.produce :end, with_guard: :discard
+        t.produce :start, with_guard: :resend
+        t.produce :end, with_guard: :discard
     end
 end
 
