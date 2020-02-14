@@ -9,7 +9,8 @@ class Petri::Net
 
   def add_place(place, options={})
     entity = place if place.is_a? Petri::Place
-    entity = Petri::Place.new(place, options)
+    entity = Petri::Place.new(place, options) if place.is_a? Symbol
+    raise TypeError unless entity.is_a? Petri::Place
 
     @places << entity unless @places.include?(entity)
     entity
